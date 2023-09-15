@@ -1,7 +1,7 @@
 import { StyleSheet, TextStyle } from "react-native";
 import AppThemeFontScheme from "../../../../../Core/constants/resources/Fonts";
 import { AppThemeCoreColorProps } from "../../../../../Core/constants/resources/Colors";
-import AppTheme from "../../../../../Core/constants/theme/AppTheme";
+import AppTheme from "../../../../../common/theme/AppTheme";
 
 type TAppThemeFontWeight = TextStyle['fontWeight'];
 

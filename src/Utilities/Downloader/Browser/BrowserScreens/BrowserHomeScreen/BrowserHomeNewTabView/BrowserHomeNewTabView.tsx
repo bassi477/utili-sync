@@ -1,8 +1,8 @@
 import { ScrollView, ScrollViewComponent, Text, TouchableHighlight, View } from "react-native";
-import { IBrowserWebShortcut, TBrowserWebShortcuts } from "../../../../../../Core/interfaces/Utility/Browser";
+import { IBrowserWebShortcut, IBrowserWebTab, TBrowserWebShortcuts } from "../../../../../../Core/interfaces/Utility/Browser";
 import { useContext } from "react";
 import { BrowserContext } from "../../../../../../Core/providers/BrowserContextProvider";
-
+import uuid from 'react-native-uuid';
 
 const BrowserHomeNewTabShortcuts: TBrowserWebShortcuts = [
     {
@@ -42,16 +42,32 @@ const BrowserHomeNewTabShortcuts: TBrowserWebShortcuts = [
 
 function BrowserHomeNewTabView(): React.JSX.Element {
     const browserContext = useContext(BrowserContext);
+    const currentTabKey = browserContext.currentWebTabKey;
 
     const handleShortcutPress = (shortcut: IBrowserWebShortcut) => {
-        browserContext.setCurrentWebTab(prevState => (
-            {
-                ...prevState,
+        const newTabKey = currentTabKey ?? uuid.v4().toString();
+        let newTab: IBrowserWebTab = {
+            name: shortcut.name,
+            historyStack: [],
+            url: shortcut.url,
+            nextTab: undefined,
+            previousTab: undefined
+        };
+
+        if(currentTabKey) {
+            const currentTab = browserContext.webTabs[currentTabKey];
+            newTab = {
+                ...currentTab,
                 name: shortcut.name,
-                historyStack: [...prevState.historyStack, shortcut.url],
+                historyStack: [...currentTab.historyStack, currentTab.url],
                 url: shortcut.url,
-            }
-        ));
+            };
+        }
+
+        browserContext.setWebTabs(prevState => ({
+            ...prevState,
+            [newTabKey]: newTab
+        }));
     };
 
     return (

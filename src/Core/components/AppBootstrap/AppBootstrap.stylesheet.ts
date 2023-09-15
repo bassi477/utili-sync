@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import AppTheme from "../../constants/theme/AppTheme";
+import AppTheme from "../../../common/theme/AppTheme";
 
 const AppBootstrapStyles = StyleSheet.create({
     appBootstrapSafeAreaView: {

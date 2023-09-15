@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { AppThemeCoreColorProps } from "../../../../../../Core/constants/resources/Colors";
-import AppTheme from "../../../../../../Core/constants/theme/AppTheme";
+import AppTheme from "../../../../../../common/theme/AppTheme";
 
 const navBarProps = AppTheme.navigation.navBar;
 const navBarLightTheme = AppTheme.navigation.navBar.theme.light;

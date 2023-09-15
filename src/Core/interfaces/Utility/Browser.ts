@@ -1,15 +1,15 @@
 import React from "react";
 
-export interface IBroswerNavTabsContent {
+export interface IBrowserNavTabsContent {
     [key: string]: {
         name: string;
         screen?: React.JSX.Element;
     }
 };
 
-export type TBrowserNavTab = IBroswerNavTabsContent[string];
+export type TBrowserNavTab = IBrowserNavTabsContent[string];
 
-export type TBroswerNavTabsContentKey = 'tabs'
+export type TBrowserNavTabsContentKey = 'tabs'
     | 'home'
     | 'downloads'
     | 'history'
@@ -17,8 +17,10 @@ export type TBroswerNavTabsContentKey = 'tabs'
 
 export interface IBrowserWebTab {
     name: string;
-    historyStack: string[];
+    historyStack: (string | undefined)[];
     url: string | undefined;
+    nextTab: string | undefined;
+    previousTab: string | undefined;
 };
 
 export type TBrowserWebTabs = { [key: string]: IBrowserWebTab };
