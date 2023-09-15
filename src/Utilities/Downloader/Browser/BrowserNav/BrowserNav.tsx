@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View } from "react-native";
 import BrowserNavStyles from "./BrowserNav.stylesheet";
 import BrowserNavTab from "./BrowserNavTab/BrowserNavTab";
-import { TBroswerNavTabsContentKey } from "../../../../Core/interfaces/Utility/Browser";
+import { TBrowserNavTabsContentKey } from "../../../../Core/interfaces/Utility/Browser";
 import BrowserNavTabsContent from "../../../../Core/constants/content/BrowserNavTabsContent";
 import { BrowserContext } from "../../../../Core/providers/BrowserContextProvider";
 import AppThemeIconProps from "../../../../Core/constants/resources/Icons";
@@ -18,7 +18,7 @@ function BrowserNav(): React.ReactNode {
         bookmarks: AppThemeIconProps.utility.browser.navTab.bookmarksIcon,
     }
 
-    const handleNavTabsNavigation = (key: TBroswerNavTabsContentKey) => {
+    const handleNavTabsNavigation = (key: TBrowserNavTabsContentKey) => {
         // if (key === 'tabs') {
         //     browserContext.setWebTabsDrawerOpen(!browserContext.isWebTabsDrawerOpen);
         // } else {
@@ -34,7 +34,7 @@ function BrowserNav(): React.ReactNode {
                 Object.keys(BrowserNavTabsContent).map((key, index, array) => {
 
                     if (
-                        key as TBroswerNavTabsContentKey === 'tabs'
+                        key as TBrowserNavTabsContentKey === 'tabs'
                         && browserContext.currentNavTabKey !== 'home'
                     ) return;
 
@@ -42,8 +42,8 @@ function BrowserNav(): React.ReactNode {
                         <>
                             <BrowserNavTab
                                 navTab={BrowserNavTabsContent[key]}
-                                action={() => handleNavTabsNavigation(key as TBroswerNavTabsContentKey)}
-                                active={key as TBroswerNavTabsContentKey === browserContext.currentNavTabKey}
+                                action={() => handleNavTabsNavigation(key as TBrowserNavTabsContentKey)}
+                                active={key as TBrowserNavTabsContentKey === browserContext.currentNavTabKey}
                                 disabled={false}
                                 icon={browserNavIcons[key]}
                                 key={`BrowserNav-BrowserNavTab-${index}`} />

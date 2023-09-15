@@ -30,10 +30,6 @@ const AppIconCatalog = {
                 },
             },
             navBar: {
-                web: {
-                    core: MatCIcon,
-                    name: 'web'
-                },
                 download: {
                     core: MatCIcon,
                     name: 'download'
@@ -46,6 +42,22 @@ const AppIconCatalog = {
                     core: MatCIcon,
                     name: 'bookmark-multiple'
                 }
+            },
+            tab: {
+                add: {
+                    core: MatCIcon,
+                    name: 'plus-circle'
+                },
+            },
+            common: {
+                close: {
+                    core: MatCIcon,
+                    name: 'close'
+                },
+                web: {
+                    core: MatCIcon,
+                    name: 'web'
+                },
             }
         }
     }
