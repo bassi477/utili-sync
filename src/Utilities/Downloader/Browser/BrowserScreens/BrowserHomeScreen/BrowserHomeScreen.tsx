@@ -54,6 +54,7 @@ function BrowserHomeScreen(): React.JSX.Element {
   return (
     <BrowserHomeContextProvider
       uri={currentTab?.url || ''}
+      setFileDownloads={browserContext.setFileDownloads}
       onNavigationStateChange={onNavigationStateChange}>
       <View style={BrowserHomeScreenStyles.browserHomeContainer}>
         {AddressBar}

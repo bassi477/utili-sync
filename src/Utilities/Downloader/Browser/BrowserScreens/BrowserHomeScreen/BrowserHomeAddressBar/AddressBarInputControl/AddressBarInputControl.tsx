@@ -17,14 +17,42 @@ function AddressBarInputControl(): React.JSX.Element {
   const browserHomeContext = useContext(BrowserHomeContext);
   const [inputValue, setInputValue] = useState('');
 
+  const isUrlFIle = (url: string) => {
+    url = new URL(url).href;
+    if (url.endsWith('/')) url = url.substring(0, url.length - 1);
+    const splitValue = url.split('/');
+    if (splitValue) {
+      const lastValue = splitValue.pop();
+      const indexOfValue = lastValue?.indexOf('.');
+      return indexOfValue && indexOfValue > 0;
+    }
+    return false;
+  };
+
   const onSubmitEditing = () => {
     let urlValue = inputValue; // get current copy of inputValue.
     const validatedUrl = validateUrl(urlValue); // check if valid url.
     if (validatedUrl) {
+      if (isUrlFIle(validatedUrl)) {
+        const newUuid = uuid.v4().toString();
+        browserContext.setFileDownloads(prevState => ({
+          ...prevState,
+          [newUuid]: {
+            url: validatedUrl,
+            name: undefined,
+            bufferSize: undefined,
+            chunks: [],
+            encoding: undefined,
+            size: undefined,
+            status: 'new',
+          },
+        }));
+        return;
+      }
       let currentTabKey =
         browserContext.currentWebTabKey ?? uuid.v4().toString();
       let currentTab: IBrowserWebTab = {
-        url: validatedUrl.href,
+        url: validatedUrl,
         historyStack: [],
         name: 'Home',
         nextTab: undefined,
@@ -35,7 +63,7 @@ function AddressBarInputControl(): React.JSX.Element {
         currentTab = {
           ...oldTabState,
           historyStack: [...oldTabState.historyStack, oldTabState.url],
-          url: validatedUrl.href,
+          url: validatedUrl,
         };
       }
       browserContext.setWebTabs(prevState => ({
@@ -50,7 +78,10 @@ function AddressBarInputControl(): React.JSX.Element {
       let updatedValue = value.trim();
       if (!updatedValue || updatedValue === '') throw new Error();
       const whiteSpaceCount = updatedValue.split(' ')?.length;
-      const isDotCom = updatedValue.includes('.com');
+      const isDotCom =
+        updatedValue.includes('.com') ||
+        updatedValue.includes('http://') ||
+        updatedValue.includes('https://');
       if (whiteSpaceCount > 1 || !isDotCom) {
         // probably a search. create a google search url.
         const urlParams = new URLSearchParams({
@@ -58,8 +89,11 @@ function AddressBarInputControl(): React.JSX.Element {
         });
         updatedValue = `https://www.google.com/search?${urlParams}`;
       }
-      const parsedUrl = parseUrl(updatedValue);
-      return new URL(parsedUrl);
+      let parsedUrl = parseUrl(updatedValue);
+      parsedUrl = new URL(parsedUrl).href;
+      if (parsedUrl.endsWith('/'))
+        parsedUrl = parsedUrl.substring(0, parsedUrl.length - 1);
+      return parsedUrl;
     } catch (e) {
       return undefined;
     }

@@ -3,6 +3,7 @@ import WebView, { WebViewNavigation } from "react-native-webview";
 import WebViewCoreStyles from './WebViewCore.stylesheet';
 import {
     FileDownloadEvent,
+    ShouldStartLoadRequest,
     WebViewErrorEvent,
     WebViewNavigationEvent,
     WebViewProgressEvent
@@ -18,6 +19,7 @@ interface IWebViewCoreProps {
     onLoadEnd: (event: WebViewNavigationEvent | WebViewErrorEvent) => void;
     onLoadProgress: (event: WebViewProgressEvent) => void;
     onFileDownload: (event: FileDownloadEvent) => void;
+    onShouldStartLoadRequest: (event: ShouldStartLoadRequest) => boolean
 }
 
 type TWebViewRef = WebView<{}> | null;
@@ -30,6 +32,7 @@ function WebViewCore(props: IWebViewCoreProps): React.JSX.Element {
             source={{ uri: props.uri }}
             useWebView2
             startInLoadingState
+            onShouldStartLoadWithRequest={props.onShouldStartLoadRequest}
             onLoadStart={props.onLoadStart}
             onLoadEnd={props.onLoadEnd}
             onLoadProgress={props.onLoadProgress}

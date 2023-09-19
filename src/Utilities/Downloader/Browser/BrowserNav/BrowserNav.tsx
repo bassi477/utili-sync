@@ -39,19 +39,19 @@ function BrowserNav(): React.ReactNode {
                     ) return;
 
                     return (
-                        <>
+                        <React.Fragment key={`BrowserNav-BrowserNavTab-${index}`}>
                             <BrowserNavTab
                                 navTab={BrowserNavTabsContent[key]}
                                 action={() => handleNavTabsNavigation(key as TBrowserNavTabsContentKey)}
                                 active={key as TBrowserNavTabsContentKey === browserContext.currentNavTabKey}
                                 disabled={false}
                                 icon={browserNavIcons[key]}
-                                key={`BrowserNav-BrowserNavTab-${index}`} />
+                                 />
                             {
                                 index != array.length - 1 ?
                                     <BrowserNavTabSeparator /> : <></>
                             }
-                        </>
+                        </React.Fragment>
                     );
                 })
             }
