@@ -1,213 +1,35 @@
 import React, {useContext, useState} from 'react';
 import {Pressable, ScrollView, Text, View} from 'react-native';
-import {create} from 'apisauce';
-import AppFileDownloadHelper from '../../../../../common/helper/AppFileDownloadHelper';
-import RNFetchBlob from 'rn-fetch-blob';
-import {BrowserContext} from '../../../../../Core/providers/BrowserContextProvider';
 import {
   TAppBrowserBookmarkFolder,
   TAppBrowserBookmarkLink,
   TAppBrowserBookmark,
-  TAppBrowserBookmarks,
   EAppBrowserBookmarkType,
+  TAppBrowserBookmarks,
 } from '../../../../../common/interfaces/AppBrowserBookmark';
+import {BrowserContext} from '../../../../../Core/providers/BrowserContextProvider';
 import uuid from 'react-native-uuid';
 
-const apiSauceInstance = create({
-  baseURL: undefined,
-});
+interface IAppActionButton {
+  title: string;
+  backgroundColor: string;
+  textColor: string;
+  action: () => void;
+}
+
+type TAppActionButtons = IAppActionButton[];
 
 function BrowserBookmarksScreen(): JSX.Element {
   const browserContext = useContext(BrowserContext);
-  const bookmarks = browserContext.bookmarks;
+  const {
+    bookmarks,
+    setBookmarks,
+    setCurrentNavTabKey,
+    setCurrentWebTabKey,
+    setWebTabs,
+  } = browserContext;
   const [currentRoot, setCurrentRoot] = useState<TAppBrowserBookmark>();
 
-  // const updateBookmarksTree = (
-  //   parentKeys: string[],
-  //   target: IAppBrowserBookmarkFolder,
-  //   item: TAppBrowserBookmark,
-  //   itemKey: string,
-  // ): IAppBrowserBookmarkFolder => {
-  //   const totalKeys = parentKeys.length;
-  //   const key = parentKeys.shift() as string;
-  //   if (totalKeys === 1) {
-  //     return {...target, children: {...target.children, [itemKey]: item}};
-  //   } else
-  //     return {
-  //       ...target,
-  //       children: {
-  //         ...target.children,
-  //         [key]: updateBookmarksTree(
-  //           parentKeys,
-  //           target.children[key] as IAppBrowserBookmarkFolder,
-  //           item,
-  //           itemKey,
-  //         ),
-  //       },
-  //     };
-  // };
-
-  // const updateBookmarks = (keys: string[], item: TAppBrowserBookmark, itemKey: string) => {
-  //   let updatedBookmarks = bookmarks;
-  //   const totalKeys = keys.length;
-  //   const minKeyIndex = 0;
-  //   const maxKeyIndex = totalKeys - 1;
-  //   // if no parent, add to root.
-  //   if(totalKeys === 0) updatedBookmarks[itemKey] = item;
-  //   // if one parent, add to
-  //   // else if(totalKeys === 1) updatedBookmarks[keys[minKeyIndex]];
-  //   else if(totalKeys > 0) {
-  //     let loopIterator = minKeyIndex;
-  //     let result: TAppBrowserBookmark | undefined = undefined;
-  //     let objectKeyMapping: {key: string, object: IAppBrowserBookmarkFolder}[] = [];
-  //     let currentObject = undefined;
-
-  //     // let currentItemPointer: IAppBrowserBookmarkFolder | undefined = undefined;
-  //     for (let loopIterator = minKeyIndex; loopIterator <= maxKeyIndex; loopIterator++) {
-  //       const key = keys[loopIterator];
-  //       if(!currentObject)  currentObject = updatedBookmarks[key] as IAppBrowserBookmarkFolder;
-  //       else currentObject = currentObject.children[key] as IAppBrowserBookmarkFolder;
-  //       objectKeyMapping.push({
-  //         key,
-  //         object: currentObject
-  //       });
-
-  //       // if(!result) result = currentObject;
-
-  //       // let j = loopIterator;
-  //       // while(j >= 0) {
-
-  //       // }
-  //       // // result = {
-  //       //   ...result,
-  //       //   children:
-  //       // };
-  //       // else currentObject = currentObject.children[key] as IAppBrowserBookmarkFolder;
-
-  //       // const key = keys[i];
-  //       // if(i === minKeyIndex && !result) result = updatedBookmarks[key];
-  //       // let mergedObject = {};
-  //       // let j =
-  //       // while
-  //       // if(!currentItemPointer) currentItemPointer = updatedBookmarks[key] as IAppBrowserBookmarkFolder;
-  //       // else currentItemPointer = currentItemPointer.children[]
-  //       // else if(currentItemPointer && i === maxKeyIndex) currentItemPointer.children[key][itemKey]
-  //     }
-
-  //   }
-
-  //   return updatedBookmarks;
-
-  //   if(firstKeyIndex === lastKeyIndex) {
-
-  //   }
-  //   let objectKeyMapping = [];
-  //   let parentKeyMap: {
-  //     key: string,
-  //     object: TAppBrowserBookmark
-  //   } | undefined = undefined;
-  //   // let parentObject: TAppBrowserBookmark | undefined = undefined;
-  //   keys.map((key, index) => {
-  //     const isFirstKey = index === 0;
-  //     const isLastKey = index === maxKeyIndex;
-  //     // set the parent object so that we can merge the mappings to this object.
-  //     if(!parentKeyMap && isFirstKey) parentKeyMap = { key, object: bookmarks[key] };
-  //     // if last key.
-  //     if(index === maxKeyIndex) {
-  //       //
-  //     }
-
-  //     // if(index === keys.length - 1)
-  //     // while not the last index.
-  //     while(index != totalKeys - 1) {
-
-  //       objectKeyMapping.push({
-  //         key: key,
-  //         object: bookmarks[keys[]]
-  //       });
-  //     }
-  //   });
-  // };
-
-  // const updateBookmarksOld = (
-  //   keys: string[],
-  //   parent: IAppBrowserBookmarkFolder | undefined,
-  //   newValue: TAppBrowserBookmark,
-  //   newKey: string,
-  // ) => {
-  //   let array = keys;
-  //   let parentInstance = parent;
-  //   if (array.length !== 0) {
-  //     let key = array.pop() as string;
-  //     if (!parentInstance)
-  //       parentInstance = bookmarks[key] as IAppBrowserBookmarkFolder;
-  //     const child = parentInstance.children[key] as IAppBrowserBookmarkFolder;
-  //     const result = updateBookmarks(array, child, newValue, newKey);
-  //     return {
-  //       ...bookmarks,
-  //       [key]: result,
-  //       // ...parentInstance,
-  //       // children: {
-  //       //   ...parentInstance.children,
-  //       //   [key]: updateBookmarks(array, child, newValue, newKey),
-  //       // },
-  //     } as TBrowserBookmarks;
-  //   }
-
-  //   if (array.length === 0 && parentInstance) {
-  //     return {
-  //       ...parentInstance,
-  //       children: {
-  //         ...parentInstance.children,
-  //         [newKey]: newValue,
-  //       },
-  //     } as IAppBrowserBookmarkFolder;
-  //   }
-
-  //   if (array.length === 0 && !parentInstance) {
-  //     return {
-  //       ...bookmarks,
-  //       [newKey]: newValue,
-  //     };
-  //   }
-  // };
-
-  // const addBookmark = () => {
-  //   // TODO show modal here.
-  //   let result = bookmarks;
-  //   let parentKeys: string[] = [];
-  //   if (currentRoot)
-  //     parentKeys = [...currentRoot.value.parentKeys, currentRoot.key];
-
-  //   const newBookmarkKey = uuid.v4().toString();
-  //   const newBookmark: IAppBrowserBookmarkLink = {
-  //     icon: undefined,
-  //     name: 'Demo bookmark',
-  //     parentKeys,
-  //     url: 'www.google.com',
-  //     createdAt: new Date(),
-  //     updatedAt: new Date(),
-  //   };
-
-  //   if(parentKeys.length ===0) result = {...result, [newBookmarkKey]: newBookmark};
-  //   if (parentKeys.length > 0) {
-  //     const rootParentKey = parentKeys.shift() as string;
-  //     const rootParent = bookmarks[rootParentKey] as IAppBrowserBookmarkFolder;
-  //     result = {
-  //       ...result,
-  //       [rootParentKey]: updateBookmarksTree(
-  //         parentKeys,
-  //         rootParent,
-  //         newBookmark,
-  //         newBookmarkKey,
-  //       ),
-  //     };
-  //   }
-  //   browserContext.setBookmarks(prevState => ({
-  //     ...prevState,
-  //     ...result
-  //   }));
-  // };
   const addItem = (type: EAppBrowserBookmarkType) => {
     // TODO show modal here.
     const newItem: TAppBrowserBookmark = {
@@ -225,39 +47,208 @@ function BrowserBookmarksScreen(): JSX.Element {
       updatedAt: new Date(),
     };
 
-    browserContext.setBookmarks(prevState => [...prevState, newItem]);
+    let result = [newItem];
+    let updatedRoot: TAppBrowserBookmark | undefined = undefined;
+    if (currentRoot) {
+      const rootIndex = bookmarks.findIndex(item => item.id === currentRoot.id);
+      if (rootIndex !== -1) {
+        let root = currentRoot as TAppBrowserBookmarkFolder;
+        const itemsBefore = bookmarks.slice(undefined, rootIndex);
+        const itemsAfter = bookmarks.slice(rootIndex + 1, undefined);
+        updatedRoot = {
+          ...root,
+          children: [...root.children, newItem.id],
+          updatedAt: new Date(),
+        };
+        result = [...itemsBefore, updatedRoot, ...itemsAfter, ...result];
+      }
+    }
+    if (result.length === 1) result = [...bookmarks, ...result];
+
+    setBookmarks(result);
   };
-  const addBookmarkFolder = () => {};
-  const removeBookmark = () => {};
-  const removeBookmarkFolder = () => {};
-  const editBookmark = () => {};
-  const editBookmarkFolder = () => {};
-  const openBookmarkFolder = () => {};
+
+  const removeItem = (id: string) => {
+    // TODO show modal here
+    let removeQueue: string[] = [];
+    const bookmarkIndex = bookmarks.findIndex(item => item.id === id);
+    if (bookmarkIndex !== -1) {
+      let bookmark = bookmarks[bookmarkIndex];
+      removeQueue.push(bookmark.id);
+      if (bookmark.type === EAppBrowserBookmarkType.FOLDER) {
+        bookmark = bookmark as TAppBrowserBookmarkFolder;
+        if (bookmark.children.length > 0) {
+          removeQueue = [...removeQueue, ...bookmark.children];
+        }
+      }
+      setBookmarks(prevState =>
+        prevState.filter(item => !removeQueue.includes(item.id)),
+      );
+    }
+  };
+
+  const editBookmark = (id: string) => {
+    // TODO show modal here
+    const bookmarkIndex = bookmarks.findIndex(item => item.id === id);
+    if (bookmarkIndex !== -1) {
+      let bookmark = bookmarks[bookmarkIndex];
+      if (bookmark.type === EAppBrowserBookmarkType.LINK) {
+        bookmark = bookmark as TAppBrowserBookmarkLink;
+        bookmark.name += ' UPDATED';
+        bookmark.url += ' UPDATED';
+      } else {
+        bookmark = bookmark as TAppBrowserBookmarkFolder;
+        bookmark.name += ' UPDATED';
+      }
+      bookmark.updatedAt = new Date();
+
+      setBookmarks(prevState => {
+        const itemsBefore = prevState.slice(undefined, bookmarkIndex);
+        const itemsAfter = prevState.slice(bookmarkIndex + 1, undefined);
+        return [...itemsBefore, bookmark, ...itemsAfter];
+      });
+    }
+  };
+
+  const openBookmark = (id: string) => {
+    const bookmarkIndex = bookmarks.findIndex(item => item.id === id);
+    if (bookmarkIndex !== -1) {
+      let bookmark = bookmarks[bookmarkIndex];
+      if (bookmark.type === EAppBrowserBookmarkType.LINK) {
+        let link = bookmark as TAppBrowserBookmarkLink;
+        const newWebTabUuid = uuid.v4().toString();
+        setWebTabs(prevState => {
+          const firstWebTabKey = Object.keys(prevState).at(0) as string;
+          const firstWebTab = prevState[firstWebTabKey];
+          return {
+            [newWebTabUuid]: {
+              name: link.name,
+              nextTab: firstWebTabKey,
+              previousTab: undefined,
+              historyStack: [],
+              url: link.url,
+            },
+            [firstWebTabKey]: {
+              ...firstWebTab,
+              previousTab: newWebTabUuid,
+            },
+            ...prevState,
+          };
+        });
+        setCurrentWebTabKey(newWebTabUuid);
+        setCurrentNavTabKey('home');
+      } else {
+        let folder = bookmark as TAppBrowserBookmarkFolder;
+        setCurrentRoot(folder);
+      }
+    }
+  };
+
+  const goBack = () => {
+    if (currentRoot) {
+      const parentIndex = bookmarks.findIndex(
+        item => item.id === currentRoot.parentKey,
+      );
+      if (parentIndex !== -1) {
+        const parent = bookmarks[parentIndex];
+        setCurrentRoot(parent);
+      }
+    }
+  };
+
+  const renderActionButton = (btn: IAppActionButton) => (
+    <Pressable
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: btn.backgroundColor,
+        borderRightColor: 'darkGray',
+        borderLeftColor: 'darkGray',
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderRadius: 2,
+        padding: 5,
+      }}
+      onPress={btn.action}>
+      <Text style={{color: btn.textColor}}>{btn.title}</Text>
+    </Pressable>
+  );
+
+  const renderActionButtonGroup = (buttons: TAppActionButtons) => (
+    <View
+      style={{
+        flex: 0,
+        flexDirection: 'row',
+        marginTop: 'auto',
+        borderRightColor: 'black',
+        borderLeftColor: 'black',
+        borderWidth: 2,
+        borderRadius: 4,
+        padding: 2,
+        justifyContent: 'space-evenly',
+      }}>
+      {buttons.map(renderActionButton)}
+    </View>
+  );
+
+  const renderKeyValuePair = (key: string, value: string) => (
+    <View
+      style={{
+        flex: 0,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 8,
+      }}>
+      <Text style={{fontSize: 16, fontWeight: '900'}}>{key}</Text>
+      <Text>{'=>'}</Text>
+      <Text style={{fontSize: 14, fontWeight: '600'}}>{value}</Text>
+    </View>
+  );
+
+  const createActionButtonProps = (id: string) => [
+    {
+      title: 'Open',
+      action: () => openBookmark(id),
+      backgroundColor: 'green',
+      textColor: 'white',
+    },
+    {
+      title: 'Edit',
+      action: () => editBookmark(id),
+      backgroundColor: 'gray',
+      textColor: 'black',
+    },
+    {
+      title: 'Remove',
+      action: () => removeItem(id),
+      backgroundColor: 'red',
+      textColor: 'white',
+    },
+  ];
 
   const renderLink = (bookmark: TAppBrowserBookmarkLink) => (
     <View
       style={{
         flex: 0,
         flexDirection: 'column',
-        marginHorizontal: 10,
-        borderColor: 'black',
+        margin: 15,
+        padding: 15,
+        borderColor: 'blue',
         borderWidth: 2,
-        borderRadius: 25,
+        borderRadius: 12,
       }}>
-      <Text>Id: {bookmark.id}</Text>
-      <Text>Parent: {bookmark.parentKey}</Text>
-      <Text>Type: {bookmark.type}</Text>
-      <Text>Name: {bookmark.name}</Text>
-      <Text>Icon: {bookmark.icon}</Text>
-      <Text>Url: {bookmark.url}</Text>
-      <Text>CreatedAt: {bookmark.createdAt.toDateString()}</Text>
-      <Text>UpdatedAt: {bookmark.updatedAt.toDateString()}</Text>
-      <Pressable onPress={removeBookmark}>
-        <Text>Remove bookmark</Text>
-      </Pressable>
-      <Pressable onPress={editBookmark}>
-        <Text>Edit bookmark</Text>
-      </Pressable>
+      {renderKeyValuePair('Id', bookmark.id)}
+      {renderKeyValuePair('Parent', bookmark.parentKey ?? 'Root')}
+      {renderKeyValuePair('Type', bookmark.type)}
+      {renderKeyValuePair('Name', bookmark.name)}
+      {renderKeyValuePair('Icon', bookmark.icon ?? 'Missing')}
+      {renderKeyValuePair('Url', bookmark.url)}
+      {renderKeyValuePair('Created At', bookmark.createdAt.toDateString())}
+      {renderKeyValuePair('Updated At', bookmark.createdAt.toDateString())}
+      {renderActionButtonGroup(createActionButtonProps(bookmark.id))}
     </View>
   );
 
@@ -266,33 +257,34 @@ function BrowserBookmarksScreen(): JSX.Element {
       style={{
         flex: 0,
         flexDirection: 'column',
-        marginHorizontal: 10,
+        margin: 15,
+        padding: 15,
         borderColor: 'black',
         borderWidth: 2,
-        borderRadius: 25,
+        borderRadius: 12,
       }}>
-      <Text>Id: {folder.id}</Text>
-      <Text>Parent: {folder.parentKey}</Text>
-      <Text>Type: {folder.type}</Text>
-      <Text>Name: {folder.name}</Text>
-      <Text>Icon: {folder.icon}</Text>
-      <Text>Children: {folder.children.join(', ')}</Text>
-      <Text>CreatedAt: {folder.createdAt.toDateString()}</Text>
-      <Text>UpdatedAt: {folder.updatedAt.toDateString()}</Text>
-      <Pressable onPress={editBookmarkFolder}>
-        <Text>Edit folder</Text>
-      </Pressable>
-      <Pressable onPress={removeBookmarkFolder}>
-        <Text>Remove folder</Text>
-      </Pressable>
-      <Pressable onPress={openBookmarkFolder}>
-        <Text>Open bookmark</Text>
-      </Pressable>
+      {renderKeyValuePair('Id', folder.id)}
+      {renderKeyValuePair('Parent', folder.parentKey ?? 'Root')}
+      {renderKeyValuePair('Type', folder.type)}
+      {renderKeyValuePair('Name', folder.name)}
+      {renderKeyValuePair('Icon', folder.icon ?? 'Missing')}
+      {renderKeyValuePair('Children', folder.children.join(', ') ?? 'Missing')}
+      {renderKeyValuePair('Created At', folder.createdAt.toDateString())}
+      {renderKeyValuePair('Updated At', folder.createdAt.toDateString())}
+      {renderActionButtonGroup(createActionButtonProps(folder.id))}
     </View>
   );
 
+  const filterBookmarks = (items: TAppBrowserBookmarks) => {
+    let parentKey: string | undefined = undefined;
+    if (currentRoot) {
+      parentKey = currentRoot.id;
+    }
+    return items.filter(item => item.parentKey === parentKey);
+  };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, margin: 15}}>
       <Pressable>
         <Text onPress={() => addItem(EAppBrowserBookmarkType.LINK)}>
           Add bookmark
@@ -303,8 +295,27 @@ function BrowserBookmarksScreen(): JSX.Element {
           Add bookmark folder
         </Text>
       </Pressable>
+      <View>
+        <View
+          style={{
+            flex: 0,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {renderActionButton({
+            title: 'Back',
+            textColor: 'blue',
+            backgroundColor: 'transparent',
+            action: goBack,
+          })}
+        </View>
+      </View>
+      <Text style={{fontSize: 24, fontWeight: '900'}}>
+        {currentRoot?.name ?? 'Root'}
+      </Text>
       <ScrollView style={{flex: 1}}>
-        {bookmarks.map(bookmark => {
+        {filterBookmarks(bookmarks).map(bookmark => {
           return (
             <View
               style={{flex: 0, width: '100%', flexDirection: 'column'}}

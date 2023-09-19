@@ -26,6 +26,20 @@ function BrowserHomeScreen(): React.JSX.Element {
     const url = event.url;
     const title = event.title;
 
+    if (currentTab && currentTabKey) {
+      let updatedTab = currentTab;
+      if (updatedTab.url !== url) updatedTab.url = url;
+      if (updatedTab.name !== title) updatedTab.name = title;
+
+      browserContext.setWebTabs(prevState => ({
+        ...prevState,
+        [currentTabKey]: {
+          ...currentTab,
+          ...updatedTab,
+        },
+      }));
+    }
+
     // if (currentTab && currentTab.type === BrowserDocumentTabType.HOME) {
     //     // current tab is home. create a new tab and update current tab.
     //     const tab: BrowserDocumentTab = {

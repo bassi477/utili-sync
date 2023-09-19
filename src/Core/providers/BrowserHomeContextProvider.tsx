@@ -53,6 +53,7 @@ function BrowserHomeContextProvider(
     if (splitValue) {
       const lastValue = splitValue.pop();
       const indexOfValue = lastValue?.indexOf('.');
+      // console.log('Taking as file.');
       return indexOfValue && indexOfValue > 0;
     }
     return false;
@@ -79,21 +80,22 @@ function BrowserHomeContextProvider(
 
   const onShouldStartLoadRequest = (e: ShouldStartLoadRequest) => {
     console.log('onShouldStartLoadRequest called');
-    const url = e['url'];
-    const isFile = isUrlFIle(url);
-    if (isFile) {
-      const newUuid = uuid.v4().toString();
-      props.setFileDownloads(prevState => ({
-        ...prevState,
-        [newUuid]: {
-          url,
-          name: undefined,
-          ranges: {},
-          status: 'new',
-        },
-      }));
-      return false;
-    }
+    // const url = e['url'];
+    // const isFile = isUrlFIle(url);
+    // console.log(isFile);
+    // if (isFile) {
+    //   const newUuid = uuid.v4().toString();
+    //   props.setFileDownloads(prevState => ({
+    //     ...prevState,
+    //     [newUuid]: {
+    //       url,
+    //       name: undefined,
+    //       ranges: {},
+    //       status: 'new',
+    //     },
+    //   }));
+    //   return false;
+    // }
     return true;
   };
 
