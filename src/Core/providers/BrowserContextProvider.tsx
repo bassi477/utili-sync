@@ -8,6 +8,8 @@ import uuid from 'react-native-uuid';
 import {TAppBrowserDownloads} from '../../common/interfaces/AppBrowserDownload';
 import AppFileDownloadHelper from '../../common/helper/AppFileDownloadHelper';
 import RNFetchBlob from 'rn-fetch-blob';
+import {TAppBrowserBookmarks} from '../../common/interfaces/AppBrowserBookmark';
+import {TAppBrowserHistory} from '../../common/interfaces/AppBrowserHistory';
 // import { Notification, Notifications } from 'react-native-notifications';
 
 type TReactStateAction<T> = React.Dispatch<React.SetStateAction<T>>;
@@ -23,6 +25,10 @@ interface IBrowserContext {
   setWebTabsDrawerOpen: TReactStateAction<boolean>;
   fileDownloads: TAppBrowserDownloads;
   setFileDownloads: TReactStateAction<TAppBrowserDownloads>;
+  bookmarks: TAppBrowserBookmarks;
+  setBookmarks: TReactStateAction<TAppBrowserBookmarks>;
+  history: TAppBrowserHistory;
+  setHistory: TReactStateAction<TAppBrowserHistory>;
 }
 
 type TBrowserContextProviderProps = PropsWithChildren<{}>;
@@ -62,6 +68,10 @@ export const BrowserContext = createContext<IBrowserContext>({
   setWebTabsDrawerOpen: () => {},
   fileDownloads: {},
   setFileDownloads: () => {},
+  bookmarks: [],
+  setBookmarks: () => {},
+  history: {},
+  setHistory: () => {},
 });
 
 function BrowserContextProvider(
@@ -77,6 +87,8 @@ function BrowserContextProvider(
   );
   const [isWebTabsDrawerOpen, setWebTabsDrawerOpen] = useState<boolean>(false);
   const [fileDownloads, setFileDownloads] = useState<TAppBrowserDownloads>({});
+  const [bookmarks, setBookmarks] = useState<TAppBrowserBookmarks>([]);
+  const [history, setHistory] = useState<TAppBrowserHistory>({});
 
   useEffect(() => {
     const downloadKeys = Object.keys(fileDownloads);
@@ -146,7 +158,11 @@ function BrowserContextProvider(
                         end,
                       );
                     promise.progress((received, total) =>
-                      onFileRangeProgress(fileKey, rangeKey, Math.ceil((received / total) * 100)),
+                      onFileRangeProgress(
+                        fileKey,
+                        rangeKey,
+                        Math.ceil((received / total) * 100),
+                      ),
                     );
                     promise.catch(error => {
                       AppFileDownloadHelper.logError(error);
@@ -192,7 +208,9 @@ function BrowserContextProvider(
                                 ...ranges,
                                 [rangeKey]: {
                                   ...range,
-                                  data: RNFetchBlob.base64.decode(blobResponse.base64()),
+                                  data: RNFetchBlob.base64.decode(
+                                    blobResponse.base64(),
+                                  ),
                                   status: 'success',
                                 },
                               },
@@ -205,7 +223,7 @@ function BrowserContextProvider(
                           fileKey,
                           rangeKey,
                           position,
-                          encoding: blobResponse.type
+                          encoding: blobResponse.type,
                         };
                       }
                     });
@@ -216,28 +234,33 @@ function BrowserContextProvider(
                   let tempRangesData: string[] = [];
                   let mainKey = '';
                   let file = '';
-                  console.log(result)
+                  console.log(result);
                   result.map(rangeResult => {
                     if (!rangeResult) return;
                     mainKey = String(rangeResult.fileKey);
                     // const subKey = String(rangeResult.rangeKey);
                     const position = Number(rangeResult.position);
-                    tempRangesData[position] = RNFetchBlob.base64.decode(rangeResult.blobResponse.base64());
+                    tempRangesData[position] = RNFetchBlob.base64.decode(
+                      rangeResult.blobResponse.base64(),
+                    );
                   });
                   console.log(tempRangesData);
                   file = tempRangesData.join('');
-                  AppFileDownloadHelper.saveFile(RNFetchBlob.base64.encode(file), 'base64').then(() => {
+                  AppFileDownloadHelper.saveFile(
+                    RNFetchBlob.base64.encode(file),
+                    'base64',
+                  ).then(() => {
                     // give toast to user and create a notification.
-                  //   let localNotification = Notifications.postLocalNotification({
-                  //     body: "File downloaded successfully",
-                  //     title: 'UtiliSync Browser',
-                  //     sound: '',
-                  //     badge: 1,
-                  //     identifier: uuid.v4().toString(),
-                  //     payload: {},
-                  //     thread: '',
-                  //     type: '',
-                  // });
+                    //   let localNotification = Notifications.postLocalNotification({
+                    //     body: "File downloaded successfully",
+                    //     title: 'UtiliSync Browser',
+                    //     sound: '',
+                    //     badge: 1,
+                    //     identifier: uuid.v4().toString(),
+                    //     payload: {},
+                    //     thread: '',
+                    //     type: '',
+                    // });
                     setFileDownloads(prevState => {
                       const file = prevState[mainKey];
                       return {
@@ -271,6 +294,10 @@ function BrowserContextProvider(
         setWebTabsDrawerOpen,
         fileDownloads,
         setFileDownloads,
+        bookmarks,
+        setBookmarks,
+        history,
+        setHistory,
       }}>
       {props.children}
     </BrowserContext.Provider>
