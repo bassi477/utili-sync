@@ -8,6 +8,7 @@ import BrowserHomeTabs from './BrowserHomeTabs/BrowserHomeTabs';
 import BrowserHomeNewTabView from './BrowserHomeNewTabView/BrowserHomeNewTabView';
 import {BrowserContext} from '../../../../../Core/providers/BrowserContextProvider';
 import BrowserHomeContextProvider from '../../../../../Core/providers/BrowserHomeContextProvider';
+import uuid from 'react-native-uuid';
 
 function BrowserHomeScreen(): React.JSX.Element {
   const browserContext = useContext(BrowserContext);
@@ -38,6 +39,17 @@ function BrowserHomeScreen(): React.JSX.Element {
           ...updatedTab,
         },
       }));
+
+      browserContext.setHistory(prevState => [
+        {
+          id: uuid.v4().toString(),
+          name: title,
+          icon: undefined,
+          url: url,
+          createdAt: new Date(),
+        },
+        ...prevState,
+      ]);
     }
 
     // if (currentTab && currentTab.type === BrowserDocumentTabType.HOME) {
