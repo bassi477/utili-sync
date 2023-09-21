@@ -2,10 +2,9 @@
  * @format
  */
 
-// import './reactotron.config';
 import 'react-native-url-polyfill/auto';
 import {AppRegistry} from 'react-native';
-import App from './src/App';
 import {name as appName} from './app.json';
+import {AppBase} from './src/utili-sync/base/core/app-base';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => AppBase);
