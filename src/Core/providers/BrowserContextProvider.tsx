@@ -70,7 +70,7 @@ export const BrowserContext = createContext<IBrowserContext>({
   setFileDownloads: () => {},
   bookmarks: [],
   setBookmarks: () => {},
-  history: {},
+  history: [],
   setHistory: () => {},
 });
 
@@ -88,7 +88,7 @@ function BrowserContextProvider(
   const [isWebTabsDrawerOpen, setWebTabsDrawerOpen] = useState<boolean>(false);
   const [fileDownloads, setFileDownloads] = useState<TAppBrowserDownloads>({});
   const [bookmarks, setBookmarks] = useState<TAppBrowserBookmarks>([]);
-  const [history, setHistory] = useState<TAppBrowserHistory>({});
+  const [history, setHistory] = useState<TAppBrowserHistory>([]);
 
   useEffect(() => {
     const downloadKeys = Object.keys(fileDownloads);

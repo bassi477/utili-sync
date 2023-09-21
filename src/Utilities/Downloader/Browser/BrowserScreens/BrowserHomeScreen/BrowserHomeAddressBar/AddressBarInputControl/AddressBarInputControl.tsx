@@ -3,7 +3,6 @@ import {View, TextInput} from 'react-native';
 import {BrowserContext} from '../../../../../../../Core/providers/BrowserContextProvider';
 import AddressBarInputControlStyles from './AddressBarInputControl.stylesheet';
 import AddressBarButton from '../AddressBarButton/AddressBarButton';
-import {AppThemeBrowserWebTabIconProps} from '../../../../../../../Core/constants/resources/Icons';
 import {BrowserHomeContext} from '../../../../../../../Core/providers/BrowserHomeContextProvider';
 import {IBrowserWebTab} from '../../../../../../../Core/interfaces/Utility/Browser';
 import uuid from 'react-native-uuid';
@@ -17,8 +16,8 @@ function AddressBarInputControl(): React.JSX.Element {
   const browserHomeContext = useContext(BrowserHomeContext);
   const [inputValue, setInputValue] = useState('');
 
-  const isUrlFIle = (url: string) => {
-    url = new URL(url).href;
+  const isUrlFile = (url: string) => {
+    url = new URL(url).pathname;
     if (url.endsWith('/')) url = url.substring(0, url.length - 1);
     const splitValue = url.split('/');
     if (splitValue) {
@@ -33,17 +32,15 @@ function AddressBarInputControl(): React.JSX.Element {
     let urlValue = inputValue; // get current copy of inputValue.
     const validatedUrl = validateUrl(urlValue); // check if valid url.
     if (validatedUrl) {
-      if (isUrlFIle(validatedUrl)) {
+      console.log(isUrlFile(validatedUrl));
+      if (isUrlFile(validatedUrl)) {
         const newUuid = uuid.v4().toString();
         browserContext.setFileDownloads(prevState => ({
           ...prevState,
           [newUuid]: {
             url: validatedUrl,
             name: undefined,
-            bufferSize: undefined,
-            chunks: [],
-            encoding: undefined,
-            size: undefined,
+            ranges: {},
             status: 'new',
           },
         }));

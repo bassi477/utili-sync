@@ -46,18 +46,6 @@ function BrowserHomeContextProvider(
   const [loadProgress, setLoadProgress] = useState<number>(0);
   const webViewRef = useRef<TWebViewRef>();
 
-  const isUrlFIle = (url: string) => {
-    url = new URL(url).href;
-    if (url.endsWith('/')) url = url.substring(0, url.length - 1);
-    const splitValue = url.split('/');
-    if (splitValue) {
-      const lastValue = splitValue.pop();
-      const indexOfValue = lastValue?.indexOf('.');
-      return indexOfValue && indexOfValue > 0;
-    }
-    return false;
-  };
-
   const onLoadStart = (e: WebViewNavigationEvent) => {
     setIsLoadProgress(true);
   };
@@ -79,21 +67,22 @@ function BrowserHomeContextProvider(
 
   const onShouldStartLoadRequest = (e: ShouldStartLoadRequest) => {
     console.log('onShouldStartLoadRequest called');
-    const url = e['url'];
-    const isFile = isUrlFIle(url);
-    if (isFile) {
-      const newUuid = uuid.v4().toString();
-      props.setFileDownloads(prevState => ({
-        ...prevState,
-        [newUuid]: {
-          url,
-          name: undefined,
-          ranges: {},
-          status: 'new',
-        },
-      }));
-      return false;
-    }
+    // const url = e['url'];
+    // const isFile = isUrlFIle(url);
+    // console.log(isFile);
+    // if (isFile) {
+    //   const newUuid = uuid.v4().toString();
+    //   props.setFileDownloads(prevState => ({
+    //     ...prevState,
+    //     [newUuid]: {
+    //       url,
+    //       name: undefined,
+    //       ranges: {},
+    //       status: 'new',
+    //     },
+    //   }));
+    //   return false;
+    // }
     return true;
   };
 

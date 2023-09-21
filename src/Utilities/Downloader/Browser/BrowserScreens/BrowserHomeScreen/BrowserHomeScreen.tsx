@@ -8,6 +8,7 @@ import BrowserHomeTabs from './BrowserHomeTabs/BrowserHomeTabs';
 import BrowserHomeNewTabView from './BrowserHomeNewTabView/BrowserHomeNewTabView';
 import {BrowserContext} from '../../../../../Core/providers/BrowserContextProvider';
 import BrowserHomeContextProvider from '../../../../../Core/providers/BrowserHomeContextProvider';
+import uuid from 'react-native-uuid';
 
 function BrowserHomeScreen(): React.JSX.Element {
   const browserContext = useContext(BrowserContext);
@@ -25,6 +26,31 @@ function BrowserHomeScreen(): React.JSX.Element {
 
     const url = event.url;
     const title = event.title;
+
+    if (currentTab && currentTabKey) {
+      let updatedTab = currentTab;
+      if (updatedTab.url !== url) updatedTab.url = url;
+      if (updatedTab.name !== title) updatedTab.name = title;
+
+      browserContext.setWebTabs(prevState => ({
+        ...prevState,
+        [currentTabKey]: {
+          ...currentTab,
+          ...updatedTab,
+        },
+      }));
+
+      browserContext.setHistory(prevState => [
+        {
+          id: uuid.v4().toString(),
+          name: title,
+          icon: undefined,
+          url: url,
+          createdAt: new Date(),
+        },
+        ...prevState,
+      ]);
+    }
 
     // if (currentTab && currentTab.type === BrowserDocumentTabType.HOME) {
     //     // current tab is home. create a new tab and update current tab.
