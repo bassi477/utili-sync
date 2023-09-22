@@ -1,5 +1,3 @@
-import { AppBase } from './app-base';
+import {AppBase} from './app-base';
 
-export const BasicAppBase = () => (
-  <AppBase text="hello from AppBase" />
-);
+export const AppBaseUsage = () => <AppBase />;

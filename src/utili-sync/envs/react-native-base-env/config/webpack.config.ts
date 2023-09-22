@@ -9,7 +9,7 @@ export const webpackTransformer = (
   configMutator: WebpackConfigMutator, 
   _context: WebpackConfigTransformContext
 ): WebpackConfigMutator => {
-  // apply the base react-native transformer - remove this if you want to totally customise your webpack configuratoin
+  // apply the base react-native transformer - remove this if you want to totally customize your webpack configuration
   // but make sure you're certain your configuration covers everything you need
   // otherwise it's better to just override the base config by adding whichever config transformations you need after this base configuration
   reactNativeBaseWebpackTransformer(configMutator, _context);

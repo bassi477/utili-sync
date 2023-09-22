@@ -9,7 +9,9 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const config = {
   resolver: {
     unstable_enableSymlinks: true,
-    unstable_enablePackageExports: true,
+    experimentalImportSupport: false,
+    inlineRequires: true,
+    // unstable_enablePackageExports: true,
   },
 };
 

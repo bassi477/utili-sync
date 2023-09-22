@@ -1,12 +1,14 @@
-import {Text} from 'react-native';
 import {AppBaseContextProvider} from './app-base.context';
+import Browser from '../../../Utilities/Downloader/Browser/Browser';
+import { Text } from 'react-native';
 
 export type AppBaseProps = {};
 
 export function AppBase() {
   return (
     <AppBaseContextProvider>
-      <Text>This is app base. Setup the context for app base here.</Text>
+      <Browser />
+      {/* <Text>Hello World</Text> */}
     </AppBaseContextProvider>
   );
 }
