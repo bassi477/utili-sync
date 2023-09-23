@@ -9,18 +9,6 @@
  */
 
 {
-    "base/core/app-base": {
-        "scope": "",
-        "version": "",
-        "mainFile": "index.ts",
-        "rootDir": "src/utili-sync/base/core/app-base",
-        "config": {
-            "tac.utili-sync/envs/react-native-base-env": {},
-            "teambit.envs/envs": {
-                "env": "tac.utili-sync/envs/react-native-base-env"
-            }
-        }
-    },
     "base/ui/app-button-base": {
         "scope": "",
         "version": "",

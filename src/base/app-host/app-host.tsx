@@ -1,7 +1,12 @@
-import { AppBase } from './app-base';
+import {AppShell} from './app-shell';
+import {AppHostContextProvider} from './app-host.context';
 
 export type AppHostProps = {};
 
 export function AppHost() {
-  return <AppBase />;
+  return (
+    <AppHostContextProvider>
+      <AppShell />
+    </AppHostContextProvider>
+  );
 }

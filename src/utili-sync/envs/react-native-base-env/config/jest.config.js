@@ -1,11 +1,15 @@
 /**
  * @see https://bit.dev/reference/jest/jest-config
  */
-const { jestConfig, packagesToExclude: basePackagesToExclude } = require('@teambit/react.react-native-env');
+const {
+  jestConfig,
+  packagesToExclude: basePackagesToExclude,
+} = require('@teambit/react.react-native-env');
 
 const {
   generateNodeModulesPattern,
 } = require('@teambit/dependencies.modules.packages-excluder');
+
 const packagesToExclude = [...basePackagesToExclude, 'a-package-to-exclude'];
 
 /**
@@ -17,7 +21,7 @@ module.exports = {
   transformIgnorePatterns: [
     generateNodeModulesPattern({
       packages: packagesToExclude,
-      excludeComponents: true 
+      excludeComponents: true,
     }),
     '^.+.module.(css|sass|scss)$',
   ],

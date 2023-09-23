@@ -2,8 +2,8 @@ import {PropsWithChildren, createContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
-import AppThemeContextProvider from '../../../Core/providers/AppThemeContextProvider';
-import AppStatusBar from '../../../Core/components/AppStatusBar/AppStatusBar';
+import AppThemeContextProvider from '../../Core/providers/AppThemeContextProvider';
+import AppStatusBar from '../../Core/components/AppStatusBar/AppStatusBar';
 
 const appBodyStyles = StyleSheet.create({
   safeAreaView: {
@@ -14,19 +14,19 @@ const appBodyStyles = StyleSheet.create({
   },
 });
 
-export type AppBaseContextProps = PropsWithChildren<{
+export type AppHostContextProps = PropsWithChildren<{
   isDebug?: boolean;
 }>;
 
-export interface AppBaseContextState {}
+export interface AppHostContextState {}
 
-const initialState: AppBaseContextState = {};
+const initialState: AppHostContextState = {};
 
-export const AppBaseContext = createContext<AppBaseContextState>(initialState);
+export const AppHostContext = createContext<AppHostContextState>(initialState);
 
-export function AppBaseContextProvider({children}: AppBaseContextProps) {
+export function AppHostContextProvider({children}: AppHostContextProps) {
   return (
-    <AppBaseContext.Provider value={{}}>
+    <AppHostContext.Provider value={{}}>
       <NavigationContainer>
         <AppThemeContextProvider>
           <SafeAreaView style={appBodyStyles.safeAreaView}>
@@ -36,6 +36,6 @@ export function AppBaseContextProvider({children}: AppBaseContextProps) {
           </SafeAreaView>
         </AppThemeContextProvider>
       </NavigationContainer>
-    </AppBaseContext.Provider>
+    </AppHostContext.Provider>
   );
 }

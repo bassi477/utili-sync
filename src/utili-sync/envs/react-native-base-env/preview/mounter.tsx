@@ -7,7 +7,11 @@ import { createMounter } from '@teambit/react.mounter';
  * components added here as providers, should be listed as host-dependencies in your host-dependencies.ts file.
  * @see https://bit.dev/docs/react-env/component-previews#composition-providers
  */
-export function MyReactNativeProvider({ children }: { children: React.ReactNode }) {
+export function MyReactNativeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <>{children}</>;
 }
 

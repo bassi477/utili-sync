@@ -6,5 +6,5 @@ export default [
   '@teambit/mdx.ui.mdx-scope-context',
   '@mdx-js/react',
   'react',
-  'react-native-web'
+  'react-native-web',
 ];

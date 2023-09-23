@@ -1,21 +1,28 @@
-import { Text, StyleSheet } from 'react-native';
+import {PropsWithChildren} from 'react';
+import {StyleSheet, Pressable, GestureResponderEvent} from 'react-native';
 
-export type AppButtonBaseProps = {
+export type AppButtonBaseProps = PropsWithChildren<{
   /**
-   * a text to be rendered in the component.
+   * an action to be performed by the button.
    */
-  text: string
-};
+  action: (event: GestureResponderEvent) => void;
+}>;
 
 const styles = StyleSheet.create({
-  text: {},
+  pressable: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
-export function AppButtonBase({ text }: AppButtonBaseProps) {
+export function AppButtonBase({action, children}: AppButtonBaseProps) {
   return (
-    <Text style={styles.text}>
-      {text}
-    </Text>
+    <Pressable
+      style={styles.pressable}
+      // activeOpacity={highlightTheme.activeOpacity}
+      // underlayColor={highlightTheme.underlayColor}
+      onPress={action}>
+      {children}
+    </Pressable>
   );
 }
-

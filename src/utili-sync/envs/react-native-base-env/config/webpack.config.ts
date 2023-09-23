@@ -1,4 +1,7 @@
-import type { WebpackConfigMutator, WebpackConfigTransformContext } from '@teambit/webpack';
+import type {
+  WebpackConfigMutator,
+  WebpackConfigTransformContext,
+} from '@teambit/webpack';
 import { reactNativeBaseWebpackTransformer } from '@teambit/react.react-native-env';
 
 /**
@@ -6,7 +9,7 @@ import { reactNativeBaseWebpackTransformer } from '@teambit/react.react-native-e
  * @see https://bit.dev/reference/webpack/webpack-config
  */
 export const webpackTransformer = (
-  configMutator: WebpackConfigMutator, 
+  configMutator: WebpackConfigMutator,
   _context: WebpackConfigTransformContext
 ): WebpackConfigMutator => {
   // apply the base react-native transformer - remove this if you want to totally customize your webpack configuration
@@ -14,4 +17,4 @@ export const webpackTransformer = (
   // otherwise it's better to just override the base config by adding whichever config transformations you need after this base configuration
   reactNativeBaseWebpackTransformer(configMutator, _context);
   return configMutator;
-}
+};
