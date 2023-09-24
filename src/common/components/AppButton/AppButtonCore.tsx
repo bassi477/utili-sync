@@ -5,7 +5,7 @@ import AppTheme from '../../theme/AppTheme';
 const highlightTheme = AppTheme['button']['core']['highlight'];
 const highlightStyle = highlightTheme['style'];
 
-type TAppButtonCore = PropsWithChildren<{
+type TAppButtonCore = PropsWithChildren<{ 
   action: () => void;
 }>;
 

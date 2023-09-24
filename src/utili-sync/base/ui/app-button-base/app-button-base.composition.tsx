@@ -1,17 +1,35 @@
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {AppButtonBase} from './app-button-base';
 
-/**
- * Update the action and children to see changes.
- * @returns a simple app-button-base implementation
- */
-export const AppButtonExample = () => (
+export const BasicUsage = () => (
   <AppButtonBase
-    action={() => {
+    onPress={() => {
       /**
-       * Handle action here.
+       * Perform action here.
        */
     }}>
-    <Text>Click me</Text>
+    <Text>Button</Text>
+  </AppButtonBase>
+);
+
+export const StyledExample = () => (
+  <AppButtonBase
+    style={{
+      margin: 10,
+      padding: 10,
+      paddingHorizontal: 20,
+      backgroundColor: '#0d6efd',
+      borderColor: '#f8f9fa',
+      borderWidth: 1,
+      borderRadius: 25,
+    }}
+    onPress={() => {
+      /**
+       * Perform action here.
+       */
+    }}>
+    <View style={{flex: 0, flexDirection: 'row'}}>
+      <Text style={{color: '#e9ecef'}}>Button</Text>
+    </View>
   </AppButtonBase>
 );

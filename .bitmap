@@ -10,36 +10,16 @@
 
 {
     "base/ui/app-button-base": {
-        "scope": "",
-        "version": "",
+        "scope": "tac.utili-sync",
+        "version": "92e7e234cf623f582c6a03f63f900834d5f977f9",
         "mainFile": "index.ts",
-        "rootDir": "src/utili-sync/base/ui/app-button-base",
-        "config": {
-            "tac.utili-sync/envs/react-native-base-env": {},
-            "teambit.envs/envs": {
-                "env": "tac.utili-sync/envs/react-native-base-env"
-            }
-        }
+        "rootDir": "src/utili-sync/base/ui/app-button-base"
     },
     "envs/react-native-base-env": {
-        "scope": "",
-        "version": "",
+        "scope": "tac.utili-sync",
+        "version": "47030afbdce82225f5cae944aa8bdee8cb400db8",
         "mainFile": "index.ts",
-        "rootDir": "src/utili-sync/envs/react-native-base-env",
-        "config": {
-            "teambit.envs/envs": {
-                "env": "teambit.envs/env"
-            },
-            "teambit.dependencies/dependency-resolver": {
-                "policy": {
-                    "devDependencies": {
-                        "@types/react": "^18.0.0",
-                        "@types/react-dom": "^18.0.0",
-                        "metro-react-native-babel-preset": "^0.76.3"
-                    }
-                }
-            }
-        }
+        "rootDir": "src/utili-sync/envs/react-native-base-env"
     },
     "$schema-version": "16.0.0"
 }

@@ -1,18 +1,27 @@
 ---
-description: 'A AppButtonBase component.'
-labels: ['label1', 'label2', 'label3']
+description: 'A base component for buttons created using the react-native pressable.'
+labels: ['react-native', 'utili-sync', 'ui', 'app-button-base', 'button']
 ---
 
-import { AppButtonBase } from './app-button-base';
+import {AppButtonBase} from './app-button-base';
 
-## React Native Component for rendering text
+## React Native Component to render a base for buttons.
 
-A basic view that renders some text
+The base provides a wrapper for the react-native component 'Pressable'. The props for pressable
+are passed through making it completely configurable. The base can be used to create any style of
+button in react-native.
 
 ### Component usage
 
 ```js
-<AppButtonBase text="hello from AppButtonBase" />
+<AppButtonBase
+  onPress={() => {
+    /**
+     * Perform action here.
+     */
+  }}>
+  <Text>Button</Text>
+</AppButtonBase>
 ```
 
 ### Using props to customize the text
@@ -20,5 +29,13 @@ A basic view that renders some text
 Modify the text to see it change live:
 
 ```js live
-<AppButtonBase text="hello from AppButtonBase" />
+<AppButtonBase
+  onPress={() => {
+    /**
+     * Perform action here.
+     */
+  }}>
+  /* Change child node to update button content */
+  <Text>Button</Text>
+</AppButtonBase>
 ```
