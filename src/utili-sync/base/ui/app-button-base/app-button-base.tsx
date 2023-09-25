@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
  * The component renders a button using the pressable from react-native.
  */
 export function AppButtonBase(props: AppButtonBaseProps): ReactElement {
-  const {onPress, children, style, ...rest} = props;
+  const {onPress, children = [], style = {}, ...rest} = props;
   return (
     <View
       style={[
@@ -87,7 +87,7 @@ export function AppButtonBase(props: AppButtonBaseProps): ReactElement {
           justifyContent: 'center',
           alignItems: 'center',
           flexDirection: 'row',
-        }
+        },
       ]}>
       <Pressable style={[styles.pressable, style]} onPress={onPress} {...rest}>
         {children}

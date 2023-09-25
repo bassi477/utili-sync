@@ -3,4 +3,7 @@
  */
 module.exports = {
   extends: [require.resolve('@teambit/react.react-native-env/config/eslintrc')],
+  rules: {
+    'react/require-default-props': 'off',
+  },
 };

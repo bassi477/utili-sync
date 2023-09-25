@@ -11,7 +11,7 @@
 {
     "base/ui/app-button-base": {
         "scope": "tac.utili-sync",
-        "version": "92e7e234cf623f582c6a03f63f900834d5f977f9",
+        "version": "86b3b19a68eb8b8fdd2e6f3e381fe705ed6ea0f6",
         "mainFile": "index.ts",
         "rootDir": "src/utili-sync/base/ui/app-button-base"
     },
