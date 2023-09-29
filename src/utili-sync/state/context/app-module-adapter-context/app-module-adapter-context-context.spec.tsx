@@ -1,0 +1,9 @@
+import React from 'react';
+import {render} from '@testing-library/react';
+import {BasicContextUsage} from './app-module-adapter-context-context.composition';
+
+it('should render the button in the color blue', () => {
+  const {getByText} = render(<BasicContextUsage />);
+  const rendered = getByText('this should be blue');
+  expect(rendered).toBeTruthy();
+});

@@ -10,5 +10,6 @@
         "teambit",
         "Utili",
         "utilisync"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

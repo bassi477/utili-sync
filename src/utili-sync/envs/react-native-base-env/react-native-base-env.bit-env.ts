@@ -2,11 +2,11 @@
  * this env extends react-native-env version 1.0.15.
  * to inspect its config @see https://bit.cloud/teambit/react/react-native-env?version=1.0.15
  * */
-import { ReactNativeEnv } from '@teambit/react.react-native-env';
-import { Compiler } from '@teambit/compiler';
-import { ReactPreview } from '@teambit/preview.react-preview';
-import { EnvHandler } from '@teambit/envs';
-import { Pipeline } from '@teambit/builder';
+import {ReactNativeEnv} from '@teambit/react.react-native-env';
+import {Compiler} from '@teambit/compiler';
+import {ReactPreview} from '@teambit/preview.react-preview';
+import {EnvHandler} from '@teambit/envs';
+import {Pipeline} from '@teambit/builder';
 import {
   TypescriptCompiler,
   resolveTypes,
@@ -18,17 +18,17 @@ import {
   EslintTask,
   EslintConfigWriter,
 } from '@teambit/defender.eslint-linter';
-import { JestTester, JestTask } from '@teambit/defender.jest-tester';
+import {JestTester, JestTask} from '@teambit/defender.jest-tester';
 import {
   PrettierFormatter,
   PrettierConfigWriter,
 } from '@teambit/defender.prettier-formatter';
-import { Tester } from '@teambit/tester';
-import { Preview } from '@teambit/preview';
-import { ConfigWriterList } from '@teambit/workspace-config-files';
+import {Tester} from '@teambit/tester';
+import {Preview} from '@teambit/preview';
+import {ConfigWriterList} from '@teambit/workspace-config-files';
 
 import hostDependencies from './preview/host-dependencies';
-import { webpackTransformer } from './config/webpack.config';
+import {webpackTransformer} from './config/webpack.config';
 
 export class ReactNativeBaseEnv extends ReactNativeEnv {
   /* a shorthand name for the env */

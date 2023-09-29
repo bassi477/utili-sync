@@ -9,17 +9,75 @@
  */
 
 {
+    "base/entities/app-module": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "src/utili-sync/base/entities/app-module",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
+    "base/types/react-exports": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "src/utili-sync/base/types/react-exports",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
     "base/ui/app-button-base": {
         "scope": "tac.utili-sync",
         "version": "86b3b19a68eb8b8fdd2e6f3e381fe705ed6ea0f6",
         "mainFile": "index.ts",
         "rootDir": "src/utili-sync/base/ui/app-button-base"
     },
+    "envs/node-base-env": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "src/utili-sync/envs/node-base-env",
+        "config": {
+            "teambit.envs/envs": {
+                "env": "teambit.envs/env"
+            }
+        }
+    },
+    "envs/react-base-env": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "src/utili-sync/envs/react-base-env",
+        "config": {
+            "teambit.envs/envs": {
+                "env": "teambit.envs/env"
+            }
+        }
+    },
     "envs/react-native-base-env": {
         "scope": "tac.utili-sync",
         "version": "47030afbdce82225f5cae944aa8bdee8cb400db8",
         "mainFile": "index.ts",
         "rootDir": "src/utili-sync/envs/react-native-base-env"
+    },
+    "state/context/app-module-adapter-context": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "src/utili-sync/state/context/app-module-adapter-context",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
     },
     "$schema-version": "16.0.0"
 }
